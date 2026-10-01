@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Реестр заявок{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h1 class="card-title">Реестр обращений</h1>
+      <p style="font-size: 0.85rem; color: var(--color-text-muted);">
+        {% if current_user.role == 'agent' %}
+          Отображаются все заявки системы (всего: {{ total_count }})
+        {% else %}
+          Отображаются ваши персональные заявки (всего: {{ total_count }})
+        {% endif %}
+      </p>
+    </div>
+    <div>
+      <a href="{{ url_for('tickets.add') }}" class="btn btn-primary">+ Создать заявку</a>
+    </div>
+  </div>
+
+  {# Панель поиска и фильтрации (пункт 2.10) #}
+  <form method="GET" action="{{ url_for('tickets.index') }}" class="filter-bar">
+    <div class="filter-group" style="flex: 1; min-width: 200px;">
+      <input type="text" name="q" value="{{ search_query }}" placeholder="Поиск по теме или описанию..." class="form-control">
+    </div>
+
+    <div class="filter-group">
+      <select name="status" class="form-control" style="width: auto;">
+        <option value="">Все статусы</option>
+        {% for st in all_statuses %}
+          <option value="{{ st }}" {% if selected_status == st %}selected{% endif %}>
+            {{ status_labels[st] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <select name="priority" class="form-control" style="width: auto;">
+        <option value="">Все приоритеты</option>
+        {% for pr in all_priorities %}
+          <option value="{{ pr }}" {% if selected_priority == pr %}selected{% endif %}>
+            {{ priority_labels[pr] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Применить</button>
+    {% if search_query or selected_status or selected_priority %}
+      <a href="{{ url_for('tickets.index') }}" class="btn btn-secondary" title="Сбросить">✕</a>
+    {% endif %}
+  </form>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 60px;">№</th>
+          <th>Тема обращения</th>
+          <th>Приоритет</th>
+          <th>Статус</th>
+          <th>Автор</th>
+          <th>Исполнитель</th>
+          <th>Дата создания</th>
+          <th>Регламент SLA</th>
+          <th style="width: 90px;">Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if tickets %}
+          {% for t in tickets %}
+            <tr>
+              <td><strong>#{{ t.id }}</strong></td>
+              <td>
+                <a href="{{ url_for('tickets.view', ticket_id=t.id) }}" style="font-weight: 600;">
+                  {{ t.subject }}
+                </a>
+              </td>
+              <td>
+                <span class="badge badge-priority-{{ t.priority }}">
+                  {{ priority_labels[t.priority] }}
+                </span>
+              </td>
+              <td>
+                <span class="badge badge-status-{{ t.status }}">
+                  {{ status_labels[t.status] }}
+                </span>
+              </td>
+              <td>{{ t.author_name }}</td>
+              <td>{{ t.assignee_name or '—' }}</td>
+              {# ПУНКТ 8.2: Единый Jinja-фильтр format_dt #}
+              <td style="white-space: nowrap;">{{ t.created_at | format_dt }}</td>
+              <td>
+                {% if t.sla.is_completed %}
+                  <span class="badge badge-sla-ok">Решено</span>
+                {% elif t.sla.is_overdue %}
+                  <span class="badge badge-sla-overdue" title="Дедлайн: {{ t.sla.deadline | format_dt }}">
+                    ⚠️ {{ t.sla.formatted_text }}
+                  </span>
+                {% else %}
+                  <span class="badge badge-sla-ok" title="Дедлайн: {{ t.sla.deadline | format_dt }}">
+                    ⏳ {{ t.sla.formatted_text }}
+                  </span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{{ url_for('tickets.view', ticket_id=t.id) }}" class="btn btn-secondary btn-sm">Открыть</a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">
+              Обращений не найдено. Попробуйте изменить параметры поиска или создайте новую заявку.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  {# Пагинация страниц (пункт 2.10) #}
+  {% if total_pages > 1 %}
+    <ul class="pagination">
+      <li class="page-item {% if current_page <= 1 %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('tickets.index', page=current_page-1, q=search_query, status=selected_status, priority=selected_priority) }}">‹ Назад</a>
+      </li>
+      {% for p in range(1, total_pages + 1) %}
+        {% if p == current_page or (p >= current_page - 2 and p <= current_page + 2) or p == 1 or p == total_pages %}
+          <li class="page-item {% if p == current_page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('tickets.index', page=p, q=search_query, status=selected_status, priority=selected_priority) }}">{{ p }}</a>
+          </li>
+        {% elif p == current_page - 3 or p == current_page + 3 %}
+          <li class="page-item disabled"><span class="page-link">...</span></li>
+        {% endif %}
+      {% endfor %}
+      <li class="page-item {% if current_page >= total_pages %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('tickets.index', page=current_page+1, q=search_query, status=selected_status, priority=selected_priority) }}">Вперёд ›</a>
+      </li>
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Удаление заявки #{{ ticket.id }}{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 2rem auto;">
+  <div class="card-header">
+    <h1 class="card-title" style="color: var(--color-danger, #dc3545);">Удаление обращения #{{ ticket.id }}</h1>
+  </div>
+  <div class="card-body">
+    <p>Вы действительно хотите безвозвратно удалить заявку <strong>«{{ ticket.subject }}»</strong>?</p>
+    <p style="color: var(--color-text-muted); font-size: 0.9rem;">Это действие нельзя отменить. Вся переписка и история статусов будут удалены.</p>
+
+    <form method="POST" action="{{ url_for('tickets.delete', ticket_id=ticket.id) }}">
+      {% include "partials/csrf.html" %}
+      <div class="form-group" style="margin: 1.5rem 0;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" name="confirm" value="yes" required>
+          <span>Подтвердите удаление</span>
+        </label>
+      </div>
+      <div style="display: flex; gap: 1rem;">
+        <button type="submit" class="btn btn-danger">Удалить навсегда</button>
+        <a href="{{ url_for('tickets.view', ticket_id=ticket.id) }}" class="btn btn-secondary">Отмена</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

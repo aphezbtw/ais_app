@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Аналитический отчёт службы поддержки{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h1 class="card-title">Сводный аналитический отчёт</h1>
+      <p style="font-size: 0.85rem; color: var(--color-text-muted);">
+        Метрики нагрузки, распределение статусов и соблюдение регламентов SLA
+      </p>
+    </div>
+    <div>
+      <a href="{{ url_for('tickets.index') }}" class="btn btn-secondary btn-sm">← В реестр</a>
+    </div>
+  </div>
+
+  <!-- Ключевые показатели -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-num">{{ stats.total_tickets }}</div>
+      <div class="stat-label">Всего обращений в системе</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color: var(--color-info);">{{ stats.active_tickets }}</div>
+      <div class="stat-label">В активной работе</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color: {% if stats.overdue_count > 0 %}var(--color-danger){% else %}var(--color-success){% endif %};">
+        {{ stats.overdue_count }}
+      </div>
+      <div class="stat-label">Просрочено по SLA</div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+    <!-- Распределение по статусам -->
+    <div class="card" style="margin-bottom: 0;">
+      <h2 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem;">Распределение по статусам</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Статус</th>
+            <th style="text-align: right;">Количество</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for st, count in stats.status_counts.items() %}
+            <tr>
+              <td>
+                <span class="badge badge-status-{{ st }}">
+                  {{ status_labels.get(st, st) }}
+                </span>
+              </td>
+              <td style="text-align: right; font-weight: 600;">{{ count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Распределение по приоритетам -->
+    <div class="card" style="margin-bottom: 0;">
+      <h2 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem;">Распределение по приоритетам</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Приоритет</th>
+            <th style="text-align: right;">Количество</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pr, count in stats.priority_counts.items() %}
+            <tr>
+              <td>
+                <span class="badge badge-priority-{{ pr }}">
+                  {{ priority_labels.get(pr, pr) }}
+                </span>
+              </td>
+              <td style="text-align: right; font-weight: 600;">{{ count }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Нагрузка по специалистам -->
+  <div class="card" style="margin-bottom: 0;">
+    <h2 style="font-size: 1.05rem; font-weight: 600; margin-bottom: 1rem;">Текущая загрузка специалистов поддержки</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Специалист</th>
+          <th style="text-align: right;">Активных заявок в работе</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if stats.agent_workload %}
+          {% for ag in stats.agent_workload %}
+            <tr>
+              <td><strong>{{ ag.username }}</strong></td>
+              <td style="text-align: right; font-weight: 600;">{{ ag.ticket_count }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="2" style="text-align: center; color: var(--color-text-muted);">
+              Специалисты поддержки ещё не зарегистрированы.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

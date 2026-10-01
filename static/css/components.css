@@ -1,0 +1,302 @@
+/* ==============================================================================
+   Компоненты интерфейса: кнопки, формы, карточки, бейджи, таблицы.
+   ============================================================================== */
+/* Кнопки */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-border-hover);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* Формы и поля ввода */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-hint {
+  font-size: 0.775rem;
+  color: var(--color-text-muted);
+  margin-top: 0.35rem;
+}
+
+/* Карточки */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Оповещения и Flash-сообщения */
+.alert {
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  border: 1px solid transparent;
+}
+
+.alert-success {
+  background-color: var(--color-success-light);
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.alert-danger {
+  background-color: var(--color-danger-light);
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.alert-warning {
+  background-color: var(--color-warning-light);
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.alert-info {
+  background-color: var(--color-info-light);
+  color: #075985;
+  border-color: #bae6fd;
+}
+
+/* Бейджи статусов и приоритетов */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  line-height: 1;
+}
+
+.badge-status-new {
+  background-color: var(--status-new-bg);
+  color: var(--status-new);
+  border: 1px solid #bfdbfe;
+}
+
+.badge-status-in_progress {
+  background-color: var(--status-in-progress-bg);
+  color: var(--status-in-progress);
+  border: 1px solid #fde68a;
+}
+
+.badge-status-resolved {
+  background-color: var(--status-resolved-bg);
+  color: var(--status-resolved);
+  border: 1px solid #a7f3d0;
+}
+
+.badge-status-closed {
+  background-color: var(--status-closed-bg);
+  color: var(--status-closed);
+  border: 1px solid #cbd5e1;
+}
+
+.badge-priority-low {
+  background-color: #f1f5f9;
+  color: var(--priority-low);
+}
+
+.badge-priority-normal {
+  background-color: #e0f2fe;
+  color: var(--priority-normal);
+}
+
+.badge-priority-high {
+  background-color: #ffedd5;
+  color: var(--priority-high);
+}
+
+.badge-priority-critical {
+  background-color: #fee2e2;
+  color: var(--priority-critical);
+}
+
+.badge-sla-ok {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-sla-overdue {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 700;
+}
+
+/* Таблицы */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.table th, .table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Пагинация */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  list-style: none;
+}
+
+.page-item {
+  display: inline-block;
+}
+
+.page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: #ffffff;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.page-link:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-border-hover);
+  text-decoration: none;
+}
+
+.page-item.active .page-link {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.page-item.disabled .page-link {
+  color: var(--color-text-muted);
+  pointer-events: none;
+  background-color: #f1f5f9;
+}

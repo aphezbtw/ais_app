@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Заявка #{{ ticket.id }}: {{ ticket.subject }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1rem;">
+  <a href="{{ url_for('tickets.index') }}" class="btn btn-secondary btn-sm">← Назад к списку</a>
+</div>
+
+<div class="ticket-grid">
+  <!-- Основная колонка: Описание, история и комментарии -->
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <span style="font-size: 0.9rem; color: var(--color-text-muted);">Заявка #{{ ticket.id }}</span>
+          <h1 class="card-title" style="margin-top: 0.25rem;">{{ ticket.subject }}</h1>
+        </div>
+        <div>
+          <span class="badge badge-status-{{ ticket.status }}" style="font-size: 0.85rem; padding: 0.35rem 0.75rem;">
+            {{ status_labels[ticket.status] }}
+          </span>
+        </div>
+      </div>
+
+      <div style="white-space: pre-wrap; font-size: 0.95rem; color: var(--color-text); line-height: 1.6; margin-bottom: 1.5rem;">
+        {{ ticket.description }}
+      </div>
+
+      <!-- Регламент SLA (пункт 3.4) -->
+      <div style="padding: 1rem; background-color: var(--color-bg); border-radius: var(--radius-md); border: 1px solid var(--color-border); margin-bottom: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong>Регламент SLA:</strong>
+            <span style="color: var(--color-text-muted);">Дедлайн решения — {{ ticket.sla.deadline | format_dt }}</span>
+          </div>
+          <div>
+            {% if ticket.sla.is_completed %}
+              <span class="badge badge-sla-ok">Завершена</span>
+            {% elif ticket.sla.is_overdue %}
+              <span class="badge badge-sla-overdue">⚠️ {{ ticket.sla.formatted_text }}</span>
+            {% else %}
+              <span class="badge badge-sla-ok">⏳ {{ ticket.sla.formatted_text }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- История изменений и комментарии -->
+    <div class="card">
+      <h2 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem;">Хронология и переписка</h2>
+
+      <div class="timeline">
+        {% for ev in events %}
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-header">
+              <strong>{{ ev.username or 'Система' }}</strong>
+              {% if ev.role == 'agent' %}
+                <span class="user-role-badge agent">Специалист</span>
+              {% endif %}
+              &bull; {{ ev.created_at | format_dt }}
+            </div>
+            <div class="timeline-content">
+              {% if ev.event_type == 'comment' %}
+                <p style="white-space: pre-wrap;">{{ ev.details }}</p>
+              {% else %}
+                <em style="color: var(--color-text-secondary);">{{ ev.details }}</em>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Форма добавления комментария (пункт 2.11) -->
+      <form method="POST" action="{{ url_for('tickets.add_comment', ticket_id=ticket.id) }}" style="margin-top: 1.75rem;">
+        {% include "partials/csrf.html" %}
+        <div class="form-group">
+          <label for="comment" class="form-label">Добавить ответ или комментарий</label>
+          <textarea id="comment" name="comment" class="form-control" rows="3" required maxlength="2000"
+                    placeholder="Напишите сообщение..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Отправить комментарий</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Боковая колонка: Свойства и действия -->
+  <div>
+    <div class="card">
+      <h2 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Свойства заявки</h2>
+      <ul class="ticket-meta-list">
+        <li class="ticket-meta-item">
+          <span class="ticket-meta-label">Автор</span>
+          <span class="ticket-meta-val">{{ ticket.author_name }}</span>
+        </li>
+        <li class="ticket-meta-item">
+          <span class="ticket-meta-label">Приоритет</span>
+          <span class="badge badge-priority-{{ ticket.priority }}">
+            {{ priority_labels[ticket.priority] }}
+          </span>
+        </li>
+        <li class="ticket-meta-item">
+          <span class="ticket-meta-label">Исполнитель</span>
+          <span class="ticket-meta-val">{{ ticket.assignee_name or 'Не назначен' }}</span>
+        </li>
+        <li class="ticket-meta-item">
+          <span class="ticket-meta-label">Создана</span>
+          <span class="ticket-meta-val">{{ ticket.created_at | format_dt }}</span>
+        </li>
+        <li class="ticket-meta-item">
+          <span class="ticket-meta-label">Обновлена</span>
+          <span class="ticket-meta-val">{{ ticket.updated_at | format_dt }}</span>
+        </li>
+      </ul>
+
+      <!-- Блок управления для специалиста поддержки -->
+      {% if is_agent %}
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border);">
+          <h3 style="font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem;">Управление (Служба поддержки)</h3>
+
+          <!-- Смена статуса -->
+          <form method="POST" action="{{ url_for('tickets.update_status', ticket_id=ticket.id) }}" style="margin-bottom: 1rem;">
+            {% include "partials/csrf.html" %}
+            <div class="form-group" style="margin-bottom: 0.5rem;">
+              <label for="status-select" class="form-label">Изменить статус</label>
+              <select id="status-select" name="status" class="form-control">
+                {% for st in all_statuses %}
+                  <option value="{{ st }}" {% if ticket.status == st %}selected{% endif %}>
+                    {{ status_labels[st] }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Обновить статус</button>
+          </form>
+
+          <!-- Назначение исполнителя -->
+          <form method="POST" action="{{ url_for('tickets.assign', ticket_id=ticket.id) }}" style="margin-bottom: 1.25rem;">
+            {% include "partials/csrf.html" %}
+            <div class="form-group" style="margin-bottom: 0.5rem;">
+              <label for="assignee-select" class="form-label">Назначить исполнителя</label>
+              <select id="assignee-select" name="assignee_id" class="form-control">
+                <option value="">— Без исполнителя —</option>
+                {% for ag in agents %}
+                  <option value="{{ ag.id }}" {% if ticket.assignee_id == ag.id %}selected{% endif %}>
+                    {{ ag.username }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-sm" style="width: 100%;">Назначить</button>
+          </form>
+
+          <!-- Удаление заявки (аудит в deleted_log) -->
+          <form method="POST" action="{{ url_for('tickets.delete', ticket_id=ticket.id) }}"
+                onsubmit="return confirm('Вы уверены, что хотите безвозвратно удалить эту заявку?');">
+            {% include "partials/csrf.html" %}
+            <button type="submit" class="btn btn-danger btn-sm" style="width: 100%;">Удалить заявку</button>
+          </form>
+        </div>
+      {% elif ticket.status == 'resolved' and ticket.author_id == current_user.id %}
+        <!-- Кнопка закрытия для автора, если проблема решена -->
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border);">
+          <form method="POST" action="{{ url_for('tickets.update_status', ticket_id=ticket.id) }}">
+            {% include "partials/csrf.html" %}
+            <input type="hidden" name="status" value="closed">
+            <button type="submit" class="btn btn-primary btn-sm" style="width: 100%;">
+              Подтвердить решение и закрыть
+            </button>
+          </form>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Реестр заявок{% endblock %} — АИС «Заявки»</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="{{ url_for('tickets.index') }}" class="brand-link">
+        <span>АИС «Заявки»</span>
+        <span class="brand-badge">v2.0</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          {% if current_user %}
+            <li><a href="{{ url_for('tickets.index') }}" class="nav-link">Все заявки</a></li>
+            <li><a href="{{ url_for('tickets.add') }}" class="btn btn-primary btn-sm">+ Новая заявка</a></li>
+            {% if current_user.role == 'agent' %}
+              <li><a href="{{ url_for('reports.report') }}" class="nav-link">Аналитика / Отчёт</a></li>
+            {% endif %}
+            <li>
+              <div class="user-badge">
+                <span>{{ current_user.username }}</span>
+                <span class="user-role-badge {{ current_user.role }}">
+                  {{ 'Специалист' if current_user.role == 'agent' else 'Пользователь' }}
+                </span>
+              </div>
+            </li>
+            <li>
+              <form action="{{ url_for('auth.logout') }}" method="POST" style="display:inline;">
+                {% include "partials/csrf.html" %}
+                <button type="submit" class="btn btn-secondary btn-sm">Выйти</button>
+              </form>
+            </li>
+          {% else %}
+            <li><a href="{{ url_for('auth.login') }}" class="nav-link">Вход</a></li>
+            <li><a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm">Регистрация</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      {# Отображение flash-сообщений #}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 АИС «Заявки» v2. Сервис технической поддержки пользователей. Все права защищены.</p>
+    </div>
+  </footer>
+</body>
+</html>

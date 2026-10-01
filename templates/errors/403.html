@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Доступ ограничен (403){% endblock %}
+{% block content %}
+<div style="max-width: 560px; margin: 3rem auto; text-align: center;">
+  <div class="card">
+    <h1 style="font-size: 3rem; color: var(--color-danger); margin-bottom: 0.5rem;">403</h1>
+    <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Доступ запрещён</h2>
+    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">
+      {{ error.description if error and error.description else 'У вас нет достаточных прав для выполнения этой операции или просмотра данного раздела.' }}
+    </p>
+    <a href="{{ url_for('tickets.index') }}" class="btn btn-primary">Вернуться в реестр</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Некорректный запрос (400){% endblock %}
+{% block content %}
+<div style="max-width: 560px; margin: 3rem auto; text-align: center;">
+  <div class="card">
+    <h1 style="font-size: 3rem; color: var(--color-warning); margin-bottom: 0.5rem;">400</h1>
+    <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">Некорректный запрос</h2>
+    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">
+      {{ error.description if error and error.description else 'Сервер не смог распознать запрос или CSRF-токен недействителен.' }}
+    </p>
+    <a href="{{ url_for('tickets.index') }}" class="btn btn-primary">Вернуться на главную</a>
+  </div>
+</div>
+{% endblock %}

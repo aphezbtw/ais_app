@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="card auth-card">
+    <h1 class="auth-title">Авторизация</h1>
+    <p class="auth-subtitle">Войдите в личный кабинет АИС «Заявки»</p>
+
+    <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}">
+      {% include "partials/csrf.html" %}
+
+      <div class="form-group">
+        <label for="username" class="form-label">Имя пользователя (логин)</label>
+        <input type="text" id="username" name="username" class="form-control" required autofocus autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Пароль</label>
+        <input type="password" id="password" name="password" class="form-control" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Войти</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 1.25rem; font-size: 0.875rem;">
+      Нет учётной записи? <a href="{{ url_for('auth.register') }}">Зарегистрироваться</a>
+    </p>
+
+    {# Демо-учётки рендерятся ТОЛЬКО при явном флаге SEED_DEMO=1 (пункт 1.2) #}
+    {% if seed_demo_enabled %}
+    <div class="demo-box">
+      <div class="demo-box-title">Тестовые демонстрационные аккаунты:</div>
+      <ul class="demo-account-list">
+        <li class="demo-account-item">Специалист поддержки: <code>support</code> / <code>demo1234</code></li>
+        <li class="demo-account-item">Пользователь: <code>ivanova</code> / <code>demo1234</code></li>
+        <li class="demo-account-item">Пользователь: <code>petrov</code> / <code>demo1234</code></li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+[2026-10-01 13:52:22,147] INFO werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.18:5000
+[2026-10-01 13:52:22,147] INFO werkzeug: [33mPress CTRL+C to quit[0m
+[2026-10-01 13:52:22,151] INFO werkzeug:  * Restarting with stat
+[2026-10-01 13:52:22,375] WARNING werkzeug:  * Debugger is active!
+[2026-10-01 13:52:22,380] INFO werkzeug:  * Debugger PIN: 989-788-824
+[2026-10-01 13:52:26,096] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "[32mGET / HTTP/1.1[0m" 302 -
+[2026-10-01 13:52:26,137] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /login?next=/ HTTP/1.1" 200 -
+[2026-10-01 13:52:26,216] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /static/style.css HTTP/1.1" 200 -
+[2026-10-01 13:52:26,227] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /static/css/pages.css HTTP/1.1" 200 -
+[2026-10-01 13:52:26,228] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /static/css/base.css HTTP/1.1" 200 -
+[2026-10-01 13:52:26,228] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /static/css/components.css HTTP/1.1" 200 -
+[2026-10-01 13:52:26,229] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "GET /static/css/tokens.css HTTP/1.1" 200 -
+[2026-10-01 13:52:26,279] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2026-10-01 13:52:32,745] INFO ais_zayavki: AUTH_AUDIT | Action: LOGIN_FAIL | user_hash=8956e5865d7c32dc3eaf3e13a12236df093a58fca295be02c228ccfced98ca00 | ip_hash=b66a3cd204d79f50d796862d6f200efb4e3d12f382cf9bd91e94c31f0f90fc16
+[2026-10-01 13:52:32,745] INFO ais_zayavki: AUTH_AUDIT | Action: LOGIN_FAIL | user_hash=8956e5865d7c32dc3eaf3e13a12236df093a58fca295be02c228ccfced98ca00 | ip_hash=b66a3cd204d79f50d796862d6f200efb4e3d12f382cf9bd91e94c31f0f90fc16
+[2026-10-01 13:52:32,747] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[31m[1mPOST /login?next=/ HTTP/1.1[0m" 401 -
+[2026-10-01 13:52:32,769] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:32,781] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:32,781] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:32,782] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:32,782] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:32] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:34,400] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "GET /register HTTP/1.1" 200 -
+[2026-10-01 13:52:34,420] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:34,431] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:34,431] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:34,431] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:34,432] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:34] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:37,890] INFO ais_zayavki: USER_REGISTERED | user_id=1 | role=user
+[2026-10-01 13:52:37,890] INFO ais_zayavki: USER_REGISTERED | user_id=1 | role=user
+[2026-10-01 13:52:37,891] INFO ais_zayavki: AUTH_AUDIT | Action: REGISTER_OK | user_id=1 | ip_hash=b66a3cd204d79f50d796862d6f200efb4e3d12f382cf9bd91e94c31f0f90fc16
+[2026-10-01 13:52:37,891] INFO ais_zayavki: AUTH_AUDIT | Action: REGISTER_OK | user_id=1 | ip_hash=b66a3cd204d79f50d796862d6f200efb4e3d12f382cf9bd91e94c31f0f90fc16
+[2026-10-01 13:52:37,893] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[32mPOST /register HTTP/1.1[0m" 302 -
+[2026-10-01 13:52:37,920] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "GET / HTTP/1.1" 200 -
+[2026-10-01 13:52:37,943] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:37,957] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:37,957] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:37,960] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:37,961] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:37] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:39,986] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:39] "GET / HTTP/1.1" 200 -
+[2026-10-01 13:52:40,009] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,021] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,025] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,025] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,026] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,250] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "GET / HTTP/1.1" 200 -
+[2026-10-01 13:52:40,270] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,284] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,291] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,291] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:40,292] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:40] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:41,143] INFO ais_zayavki: AUTH_AUDIT | Action: LOGOUT | user_id=1 |
+[2026-10-01 13:52:41,143] INFO ais_zayavki: AUTH_AUDIT | Action: LOGOUT | user_id=1 |
+[2026-10-01 13:52:41,145] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[32mPOST /logout HTTP/1.1[0m" 302 -
+[2026-10-01 13:52:41,160] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "GET /login HTTP/1.1" 200 -
+[2026-10-01 13:52:41,179] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:41,190] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[36mGET /static/css/components.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:41,191] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[36mGET /static/css/pages.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:41,191] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[36mGET /static/css/tokens.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:52:41,191] INFO werkzeug: 192.168.1.18 - - [01/Oct/2026 13:52:41] "[36mGET /static/css/base.css HTTP/1.1[0m" 304 -
+[2026-10-01 13:56:48,993] INFO werkzeug: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.18:5000
+[2026-10-01 13:56:48,994] INFO werkzeug: [33mPress CTRL+C to quit[0m
+[2026-10-01 13:56:48,996] INFO werkzeug:  * Restarting with stat
+[2026-10-01 13:56:49,181] WARNING werkzeug:  * Debugger is active!
+[2026-10-01 13:56:49,184] INFO werkzeug:  * Debugger PIN: 989-788-824
